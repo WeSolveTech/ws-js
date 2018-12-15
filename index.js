@@ -1,3 +1,5 @@
-export function imprime(texto) {
-  console.log(`Imprimindo texto...\n\n${texto}`);
-};
+import Application from './application';
+import Component from '.component';
+import View from '.view';
+
+export { Application, Component, View };
