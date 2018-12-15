@@ -1,4 +1,4 @@
-module.exports = class DOMElement {
+export default class DOMElement {
   mount() {
     console.debug(`${this.constructor.name} mounted`);
   }

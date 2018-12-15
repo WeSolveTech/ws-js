@@ -1,7 +1,7 @@
 import DOMElement from './dom-element';
 import { camelize } from './utils/string';
 
-module.exports = class Component extends DOMElement {
+export default class Component extends DOMElement {
   constructor({ element }) {
     super();
     this.element = element;
