@@ -15,6 +15,8 @@ export default class Application {
       this.currentView = new View();
       this.currentView.mount();
     } catch(e) {
+      console.debug(`Cannot require View ${viewName}`);
+      console.debug(e);
       this.currentView = null;
     }
   }
