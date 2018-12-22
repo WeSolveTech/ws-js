@@ -10,7 +10,7 @@ export default class Application {
     let View;
 
     try {
-      View = require(`app/views/${viewName}`);
+      View = require(`App/views/${viewName}`);
 
       this.currentView = new View();
       this.currentView.mount();
