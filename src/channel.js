@@ -2,6 +2,7 @@ import { camelize } from './utils/string';
 
 export default class Channel {
   constructor({ socket, name, events = [], args = {} }) {
+    this.name = name;
     this._channel = socket.channel(name, args);
 
     events.forEach(eventName => this._bindEvent(eventName));
@@ -14,11 +15,11 @@ export default class Channel {
   }
 
   didJoin(ack) {
-    console.debug(`Joinned ${this.constructor.name}`, ack);
+    console.debug(`Joinned channel "${this.name}"`, ack);
   }
 
   didNotJoin(error) {
-    console.debug(`Unable to join ${this.constructor.name}`, error);
+    console.debug(`Unable to join channel "${this.name}"`, error);
   }
 
   /**
