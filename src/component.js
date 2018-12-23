@@ -10,7 +10,7 @@ export default class Component extends DOMElement {
   static mountComponents() {
     document.querySelectorAll('[data-ws-component]').forEach((element) => {
       const componentName = element.dataset.wsComponent;
-      const Component = require(`app/components/${componentName}`);
+      const Component = require(`App/components/${componentName}`);
       new Component({ element }).mount();
     });
   }
