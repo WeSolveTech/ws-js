@@ -1,3 +1,7 @@
+const EventBus = require('eventbusjs');
+
+window.EventBus = EventBus;
+
 export default class Application {
   static start() {
     const app = new this();

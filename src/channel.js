@@ -1,5 +1,3 @@
-import { camelize } from './utils/string';
-
 export default class Channel {
   constructor({ socket, name, events = [], args = {} }) {
     this.name = name;
@@ -26,8 +24,8 @@ export default class Channel {
    * @private
    */
   _bindEvent(eventName) {
-    const handlerName = camelize(`on-${eventName}`);
+    const fullEventName = `${this.constructor.name}:${eventName}`;
 
-    this._channel.on(eventName, this[handlerName].bind(this));    
+    this._channel.on(eventName, event => window.EventBus.dispatch(fullEventName, this, event));
   }
 }
