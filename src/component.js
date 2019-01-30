@@ -1,6 +1,8 @@
 import DOMElement from './dom-element';
 import { camelize } from './utils/string';
 
+const EVENT_NAMES = ['blur', 'change', 'click', 'focus', 'submit'];
+
 export default class Component extends DOMElement {
   constructor({ element }) {
     super();
@@ -17,18 +19,23 @@ export default class Component extends DOMElement {
 
   mount() {
     super.mount();
-    ['blur', 'change', 'click', 'focus', 'submit'].forEach(
-      name => listenToElementEvent(this, name)
-    );
+    EVENT_NAMES.forEach(eventName => this._addAllEventListeners(eventName));
+  }
+
+  _addAllEventListeners(eventName) {
+    this._addEventListener(this.element, eventName);
+
+    const nestedElements = this.element.querySelectorAll(`[data-ws-on-${eventName}]`);
+
+    nestedElements.forEach(element => this._addEventListener(element, eventName));
+  }
+
+  _addEventListener(element, eventName) {
+    const eventListenerName = element.dataset[camelize(`ws-on-${eventName}`)];
+
+    if (eventListenerName) {
+      element.addEventListener(eventName, this[eventListenerName].bind(this));
+    }
   }
 };
 
-function listenToElementEvent(view, eventName) {
-  const elements = view.element.querySelectorAll(`[data-ws-on-${eventName}]`);
-
-  elements.forEach((element) => {
-    const eventHandlerName = element.dataset[camelize(`ws-on-${eventName}`)];
-
-    element.addEventListener(eventName, (...args) => view[eventHandlerName](args));
-  });
-}
