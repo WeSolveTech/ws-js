@@ -11,12 +11,14 @@ export default class Component extends DOMElement {
 
   static mountComponents() {
     document.querySelectorAll('[data-ws-component]').forEach((element) => {
+      let Component;
       try {
         const componentName = element.dataset.wsComponent;
-        const Component = require(`App/components/${componentName}`);
-        new Component({ element }).mount();
+        Component = require(`App/components/${componentName}`);
       } catch(e) {
       }
+
+      new Component({ element }).mount();
     });
   }
 
@@ -34,11 +36,16 @@ export default class Component extends DOMElement {
   }
 
   _addEventListener(element, eventName) {
-    const eventListenerName = element.dataset[camelize(`ws-on-${eventName}`)];
+    const eventHandlerName = element.dataset[camelize(`ws-on-${eventName}`)];
 
-    if (eventListenerName) {
-      element.addEventListener(eventName, this[eventListenerName].bind(this));
+    if (eventHandlerName) {
+      const eventHandler = this[eventHandlerName];
+
+      if (eventHandler) {
+        element.addEventListener(eventName, eventHandler.bind(this), false);
+      } else {
+        console.debug(`${this.constructor.name} does not implement event handler "${eventHandlerName}"`);
+      }
     }
   }
 };
-
