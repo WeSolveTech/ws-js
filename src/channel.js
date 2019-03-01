@@ -1,9 +1,24 @@
 export default class Channel {
-  constructor({ socket, name, events = [], args = {} }) {
+  static get events() {
+    return this._EVENT_NAMES.reduce((map, eventName) => {
+      map[eventName] = `${this.name}:${eventName}`;
+
+      return map;
+    }, {});
+  }
+
+  /**
+   * @protected
+   */
+  static get _EVENT_NAMES() {
+    return [];
+  }
+
+  constructor({ socket, name, args = {} }) {
     this.name = name;
     this._channel = socket.channel(name, args);
 
-    events.forEach(eventName => this._bindEvent(eventName));
+    this.constructor._EVENT_NAMES.forEach(eventName => this._bindEvent(eventName));
   }
 
   join() {
