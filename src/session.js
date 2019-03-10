@@ -6,11 +6,16 @@ export default class Session {
 
     if (tokenMetaElement) {
       const token = tokenMetaElement.getAttribute('content');
-      const { wss } = decodeJWT(token);
 
-      this.data = wss;
-      this.token = token;
-      this.isAuthenticated = true;
+      if (token) {
+        const { wss } = decodeJWT(token);
+
+        this.data = wss;
+        this.token = token;
+        this.isAuthenticated = true;
+      } else {
+        this.isAuthenticated = false;
+      }
     }
   }
 }

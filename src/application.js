@@ -1,3 +1,4 @@
+import Config from './config.js';
 const EventBus = require('eventbusjs');
 
 window.EventBus = EventBus;
@@ -7,6 +8,10 @@ export default class Application {
     const app = new this();
     window.addEventListener('DOMContentLoaded', () => app.start(), false);
     window.addEventListener('unload', () => app.stop(), false);
+  }
+
+  static get config() {
+    return Config.load(); // TODO: memoize
   }
 
   start() {
