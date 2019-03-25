@@ -1,7 +1,7 @@
 import DOMElement from './dom-element';
 import { camelize } from './utils/string';
 
-const EVENT_NAMES = ['blur', 'change', 'click', 'focus', 'submit'];
+const EVENT_NAMES = ['blur', 'change', 'click', 'focus', 'submit', 'keypress'];
 
 export default class Component extends DOMElement {
   constructor({ element }) {
